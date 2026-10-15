@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dashboard de versiones desplegadas</title>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--text:#152238;--muted:#68758a;--line:#dce3ed;--primary:#2156d9;--primary2:#173d9b;--success:#087f5b;--warn:#b45309;--danger:#b42318;--chip:#eef3ff;--shadow:0 8px 28px rgba(28,45,78,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.shell{max-width:1580px;margin:auto;padding:24px}.topbar{display:flex;gap:20px;justify-content:space-between;align-items:flex-end;margin-bottom:18px}.title h1{font-size:27px;line-height:1.1;margin:0 0 6px}.title p{margin:0;color:var(--muted)}.badge{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid #cfd8e8;border-radius:999px;background:#fff;color:#46556c;font-size:12px}.dot{width:8px;height:8px;background:var(--success);border-radius:50%}.panel{background:var(--panel);border:1px solid #e5eaf2;border-radius:16px;box-shadow:var(--shadow)}.filters{padding:16px;margin-bottom:16px;display:grid;grid-template-columns:1.25fr repeat(6,minmax(125px,1fr)) auto;gap:12px;align-items:end}.field label{display:block;font-size:11px;font-weight:700;color:#59677c;margin:0 0 5px;text-transform:uppercase;letter-spacing:.04em}.field input,.field select{width:100%;height:38px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:0 10px;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:#90a9ed;box-shadow:0 0 0 3px rgba(33,86,217,.09)}button{height:38px;border:0;border-radius:9px;padding:0 14px;font-weight:700;cursor:pointer}.secondary{background:#eef2f7;color:#344258}.primary{background:var(--primary);color:#fff}.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:16px}.kpi{padding:15px 16px}.kpi .label{font-size:12px;color:var(--muted);font-weight:650}.kpi .value{font-size:26px;font-weight:800;margin:3px 0 1px}.kpi .sub{font-size:11px;color:#7d8899}.grid{display:grid;grid-template-columns:minmax(440px,1.25fr) minmax(300px,.75fr);gap:16px;margin-bottom:16px}.coverage{margin-bottom:16px}.section{padding:16px}.section-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}.section-head h2{font-size:16px;margin:0}.section-head .hint{color:var(--muted);font-size:12px}.bars{display:flex;flex-direction:column;gap:9px;max-height:430px;overflow:auto;padding-right:4px}.barrow{display:grid;grid-template-columns:120px 1fr 74px;gap:10px;align-items:center}.barver{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track{height:18px;background:#edf1f6;border-radius:6px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--primary),#5b82e8);border-radius:6px;min-width:2px}.barcount{text-align:right;font-variant-numeric:tabular-nums;color:#46556c;font-size:12px}.empty{padding:38px 18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px;background:#fafbfd}.model-table{width:100%;border-collapse:collapse}.model-table th,.model-table td{padding:8px 7px;border-bottom:1px solid #edf0f4;text-align:left;font-size:12px}.model-table th{position:sticky;top:0;background:#fff;color:#657187;text-transform:uppercase;font-size:10px;letter-spacing:.04em}.model-table td.num{text-align:right;font-variant-numeric:tabular-nums}.scroll{max-height:430px;overflow:auto}.table-panel{padding:0;overflow:hidden}.table-tools{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e8ecf2;gap:12px}.table-tools h2{font-size:16px;margin:0}.table-actions{display:flex;gap:8px;align-items:center}.data-wrap{overflow:auto;max-height:630px}.data{width:100%;border-collapse:separate;border-spacing:0;min-width:1050px}.data th{position:sticky;top:0;z-index:2;background:#f8fafc;padding:9px 10px;border-bottom:1px solid #dfe5ed;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:#647086}.data td{padding:9px 10px;border-bottom:1px solid #eef1f5;white-space:nowrap;font-size:12px}.data tr:hover td{background:#f9fbff}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.pill{display:inline-block;border-radius:999px;padding:3px 7px;font-size:11px;font-weight:700}.p-active{background:#e6f7f1;color:#087f5b}.p-deleted{background:#fdecec;color:#b42318}.p-created{background:#fff3db;color:#9a6700}.appchips{display:flex;gap:4px;flex-wrap:wrap;max-width:500px}.appchip{background:var(--chip);border:1px solid #dbe5ff;color:#294d9f;border-radius:6px;padding:2px 5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px}.footerbar{padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e8ecf2;background:#fafbfd}.pager{display:flex;align-items:center;gap:8px}.pager button{height:32px}.note{font-size:11px;color:#7a8798;margin-top:12px}.version-banner{display:flex;gap:8px;align-items:center;font-size:12px;color:#4e5c70}.version-banner strong{color:var(--text)}@media(max-width:1150px){.filters{grid-template-columns:repeat(3,1fr)}.kpis{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:700px){.shell{padding:12px}.topbar{align-items:flex-start;flex-direction:column}.filters{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}.barrow{grid-template-columns:90px 1fr 62px}}
+
+.uploader{padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;gap:18px;align-items:center;transition:.18s ease}.uploader.drop-active{border-color:#7b9bee;background:#f5f8ff;box-shadow:0 0 0 3px rgba(33,86,217,.08)}.upload-main{display:flex;align-items:center;gap:12px}.upload-icon{width:42px;height:42px;border-radius:12px;background:#eef3ff;color:var(--primary);display:grid;place-items:center;font-size:20px;font-weight:900}.upload-copy strong{display:block;font-size:14px}.upload-copy span{display:block;color:var(--muted);font-size:12px;margin-top:2px}.upload-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}.upload-status{font-size:11px;color:#66748a;max-width:390px;text-align:right}.upload-status.error{color:var(--danger);font-weight:700}.upload-status.ok{color:var(--success)}.upload-status.loading{color:var(--primary);font-weight:700}
+.bizum-wrap{display:flex;align-items:center;justify-content:center;gap:26px;min-height:250px;flex-wrap:wrap}.donut{width:190px;height:190px;border-radius:50%;position:relative;background:#edf1f5;box-shadow:inset 0 0 0 1px rgba(0,0,0,.03)}.donut:after{content:"";position:absolute;inset:31px;border-radius:50%;background:#fff;box-shadow:0 0 0 1px #edf0f4}.donut-center{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}.donut-center strong{font-size:28px;line-height:1}.donut-center span{font-size:11px;color:var(--muted);margin-top:5px}.legend{display:flex;flex-direction:column;gap:10px;min-width:180px}.legend-row{display:grid;grid-template-columns:11px 1fr auto;gap:8px;align-items:center;font-size:12px}.legend-dot{width:10px;height:10px;border-radius:50%}.lg-ok{background:#087f5b}.lg-no{background:#b42318}.lg-na{background:#9aa6b2}.legend-row strong{font-variant-numeric:tabular-nums}.p-bizum-yes{background:#e6f7f1;color:#087f5b}.p-bizum-no{background:#fdecec;color:#b42318}.p-bizum-na{background:#eef1f5;color:#667085}.cgp-compatible{border-color:#b7e3d3!important;background:#edf9f5!important;color:#087f5b!important}.cgp-incompatible{border-color:#f0c5c1!important;background:#fff2f0!important;color:#b42318!important}.loading-mask{opacity:.58;pointer-events:none}
+
+
+/* Multiselección buscable: cliente, modelo y versiones */
+.multi-select{position:relative;min-width:150px}.multi-trigger{width:100%;min-height:38px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:6px 34px 6px 9px;color:var(--text);text-align:left;font-weight:500;display:flex;align-items:center;gap:5px;flex-wrap:wrap;position:relative;cursor:pointer}.multi-trigger:after{content:"⌄";position:absolute;right:10px;top:8px;color:#626780;font-size:17px}.multi-select.open .multi-trigger{border-color:#262AFF;box-shadow:0 0 0 3px rgba(38,42,255,.10)}.multi-placeholder{color:#7A8196}.multi-chip{display:inline-flex;align-items:center;max-width:115px;padding:2px 7px;border-radius:999px;background:#EEEFFF;color:#1B1EC6;font-size:10px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.multi-count{padding:2px 7px;border-radius:999px;background:#262AFF;color:#fff;font-size:10px;font-weight:800}.multi-menu{display:none;position:absolute;left:0;right:0;top:calc(100% + 5px);z-index:40;background:#fff;border:1px solid #D9DBF5;border-radius:10px;box-shadow:0 14px 36px rgba(27,30,198,.15);padding:7px;min-width:230px}.multi-select.open .multi-menu{display:block}.multi-search{width:100%;height:34px;border:1px solid #D9DBF5;border-radius:7px;padding:0 9px;margin-bottom:6px;outline:none}.multi-search:focus{border-color:#262AFF;box-shadow:0 0 0 3px rgba(38,42,255,.08)}.multi-actions{display:flex;justify-content:space-between;gap:6px;padding:2px 2px 6px;font-size:10px}.multi-action{height:auto;padding:2px 4px;background:transparent;color:#262AFF;font-size:10px}.multi-options{max-height:230px;overflow:auto}.multi-option{display:flex;align-items:center;gap:8px;padding:7px 7px;border-radius:7px;cursor:pointer;font-size:12px;white-space:nowrap;overflow:hidden}.multi-option:hover{background:#F4F4FF}.multi-option input{width:14px;height:14px;accent-color:#262AFF;flex:0 0 auto}.multi-option span{overflow:hidden;text-overflow:ellipsis}.multi-empty{padding:12px 7px;color:#7A8196;font-size:12px;text-align:center}.estate-field{min-width:170px}
+
+/* Paleta corporativa Global Payments / Comercia Global Payments */
+:root{--bg:#F7F8FF;--panel:#FFFFFF;--text:#0C0C0C;--muted:#626780;--line:#E2E4F0;--primary:#262AFF;--primary2:#1B1EC6;--accent:#1CABFF;--success:#262AFF;--warn:#FFCC00;--danger:#F4364C;--chip:#F1F2FF;--shadow:0 10px 30px rgba(27,30,198,.08)}
+body{background:linear-gradient(180deg,#F7F8FF 0,#FFFFFF 420px)}
+.title h1,.section-head h2,.table-tools h2{color:#0C0C0C}.title h1:after{content:"";display:block;width:54px;height:4px;border-radius:999px;background:linear-gradient(90deg,#262AFF,#1CABFF);margin-top:10px}
+.panel{border-color:#E6E7F3}.primary{background:#262AFF}.primary:hover{background:#1B1EC6}.secondary{background:#F0F1FF;color:#1B1EC6}.secondary:hover{background:#E5E7FF}
+.field input:focus,.field select:focus{border-color:#262AFF;box-shadow:0 0 0 3px rgba(38,42,255,.10)}
+.badge{border-color:#D9DBF5}.dot{background:#1CABFF}.upload-icon{background:#EEEFFF;color:#262AFF}.uploader.drop-active{border-color:#262AFF;background:#F4F4FF;box-shadow:0 0 0 3px rgba(38,42,255,.08)}
+.kpi{position:relative;overflow:hidden}.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#262AFF}.kpi:nth-child(2):before,.kpi:nth-child(5):before{background:#1CABFF}.kpi:nth-child(3):before,.kpi:nth-child(6):before{background:#1B1EC6}
+.p-active{background:#EEEFFF;color:#1B1EC6}.p-deleted{background:#FFF0F2;color:#C81E3A}.p-created{background:#FFF7D6;color:#755D00}
+.appchip{background:#F1F2FF;border-color:#DADCFD;color:#1B1EC6}.cgp-compatible{border-color:#C9CBFF!important;background:#F0F1FF!important;color:#1B1EC6!important}.cgp-incompatible{border-color:#FFC8D0!important;background:#FFF0F2!important;color:#C81E3A!important}
+.p-bizum-yes{background:#EEEFFF;color:#1B1EC6}.p-bizum-no{background:#FFF0F2;color:#C81E3A}.p-bizum-na{background:#F1F2F6;color:#667085}
+.chart-shell{position:relative;height:330px;min-height:280px}.chart-shell canvas{width:100%!important;height:100%!important}.chart-empty{display:none;position:absolute;inset:0;align-items:center;justify-content:center;text-align:center;color:var(--muted);padding:28px;border:1px dashed var(--line);border-radius:12px;background:#FAFAFF}.chart-empty.show{display:flex}
+.bizum-wrap{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:300px;gap:8px}.bizum-chart-shell{position:relative;height:260px;width:100%;max-width:440px}.bizum-chart-shell canvas{width:100%!important;height:100%!important}.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}.donut-center strong{font-size:27px;line-height:1;color:#4B5068}.donut-center span{font-size:11px;color:var(--muted);margin-top:5px}.lg-ok{background:#262AFF}.lg-no{background:#F4364C}.lg-na{background:#A8ADBD}
+.bizum-mini-key{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:-2px}.bizum-mini-item{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}.bizum-mini-dot{width:7px;height:7px;border-radius:50%;display:inline-block}.bizum-mini-dot.ok{background:#262AFF}.bizum-mini-dot.no{background:#F4364C}.bizum-mini-dot.na{background:#A8ADBD}
+@media(max-width:700px){.bizum-wrap{grid-template-columns:1fr}.chart-shell{height:300px}}
+
+
+/* Modo claro / oscuro */
+.topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}.theme-toggle{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 11px;border:1px solid #D9DBF5;border-radius:999px;background:#FFFFFF;color:#34384E;font-size:12px;font-weight:750;box-shadow:0 2px 10px rgba(27,30,198,.06)}.theme-toggle:hover{background:#F3F4FF}.theme-toggle span:first-child{font-size:15px;line-height:1}
+html[data-theme="dark"]{--bg:#0D0F1A;--panel:#171927;--text:#F4F5FA;--muted:#A8ADBD;--line:#34374A;--chip:#23263D;--shadow:0 10px 30px rgba(0,0,0,.28)}
+html[data-theme="dark"] body{background:linear-gradient(180deg,#101225 0,#0D0F1A 430px);color:var(--text)}
+html[data-theme="dark"] .title h1,html[data-theme="dark"] .section-head h2,html[data-theme="dark"] .table-tools h2{color:#F7F7FB}
+html[data-theme="dark"] .panel{background:#171927;border-color:#2B2E42}
+html[data-theme="dark"] .badge{background:#171927;border-color:#34374A;color:#C9CDDB}
+html[data-theme="dark"] .theme-toggle{background:#202338;border-color:#3B3F59;color:#E8EAF3;box-shadow:none}
+html[data-theme="dark"] .theme-toggle:hover{background:#292D46}
+html[data-theme="dark"] .field label{color:#A8ADBD}
+html[data-theme="dark"] .field input,html[data-theme="dark"] .field select{background:#111321;border-color:#34374A;color:#F4F5FA;color-scheme:dark}
+html[data-theme="dark"] .field input::placeholder,html[data-theme="dark"] .multi-search::placeholder{color:#73798F}
+html[data-theme="dark"] .secondary{background:#25283E;color:#C9CBFF}
+html[data-theme="dark"] .secondary:hover{background:#30344E}
+html[data-theme="dark"] .uploader.drop-active{background:#20233B}
+html[data-theme="dark"] .upload-icon{background:#25284B;color:#8EA0FF}
+html[data-theme="dark"] .empty,html[data-theme="dark"] .chart-empty{background:#121421;border-color:#34374A}
+html[data-theme="dark"] .model-table th{background:#171927;color:#A8ADBD}
+html[data-theme="dark"] .model-table th,html[data-theme="dark"] .model-table td{border-bottom-color:#2B2E42}
+html[data-theme="dark"] .data th{background:#1D2030;border-bottom-color:#34374A;color:#A8ADBD}
+html[data-theme="dark"] .data td{border-bottom-color:#282B3C}
+html[data-theme="dark"] .data tr:hover td{background:#202337}
+html[data-theme="dark"] .table-tools{border-bottom-color:#2B2E42}
+html[data-theme="dark"] .footerbar{background:#141622;border-top-color:#2B2E42}
+html[data-theme="dark"] .note{color:#9298AA}
+html[data-theme="dark"] .version-banner{color:#A8ADBD}
+html[data-theme="dark"] .multi-trigger{background:#111321;border-color:#34374A;color:#F4F5FA}
+html[data-theme="dark"] .multi-trigger:after{color:#A8ADBD}
+html[data-theme="dark"] .multi-placeholder{color:#858B9E}
+html[data-theme="dark"] .multi-chip{background:#292C55;color:#BEC4FF}
+html[data-theme="dark"] .multi-menu{background:#171927;border-color:#34374A;box-shadow:0 16px 38px rgba(0,0,0,.34)}
+html[data-theme="dark"] .multi-search{background:#111321;border-color:#34374A;color:#F4F5FA}
+html[data-theme="dark"] .multi-option:hover{background:#23263A}
+html[data-theme="dark"] .multi-empty{color:#8E94A8}
+html[data-theme="dark"] .appchip{background:#25283E;border-color:#393D60;color:#BEC4FF}
+html[data-theme="dark"] .p-bizum-yes,html[data-theme="dark"] .p-active{background:#292C55;color:#C9CBFF}
+html[data-theme="dark"] .p-bizum-no,html[data-theme="dark"] .p-deleted{background:#40232B;color:#FF9AA8}
+html[data-theme="dark"] .p-bizum-na{background:#292C38;color:#B7BCCB}
+html[data-theme="dark"] .p-created{background:#403819;color:#FFE27A}
+html[data-theme="dark"] .cgp-compatible{border-color:#555AA2!important;background:#292C55!important;color:#C9CBFF!important}
+html[data-theme="dark"] .cgp-incompatible{border-color:#69404B!important;background:#40232B!important;color:#FF9AA8!important}
+html[data-theme="dark"] .donut-center strong{color:#B0B4C0}
+html[data-theme="dark"] .donut-center span{color:#9298AA}
+@media(max-width:700px){.topbar-actions{justify-content:flex-start}.theme-toggle #themeLabel{display:none}}
+
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <div class="title"><h1>Versiones desplegadas por terminal</h1><p>Inventario normalizado: una única versión —la mayor numéricamente— por aplicación y terminal.</p></div>
+    <div class="topbar-actions"><button type="button" class="theme-toggle" id="themeToggle" aria-label="Activar modo oscuro" title="Cambiar modo claro/oscuro"><span id="themeIcon">☾</span><span id="themeLabel">Modo oscuro</span></button><div class="badge"><span class="dot"></span><span id="sourceBadge"></span></div></div>
+  </div>
+
+  <div class="panel uploader" id="dropZone">
+    <div class="upload-main">
+      <div class="upload-icon">↑</div>
+      <div class="upload-copy"><strong>Actualizar inventario desde Excel</strong><span>Arrastra el reporte diario aquí o selecciónalo. El fichero se procesa localmente en tu navegador.</span></div>
+    </div>
+    <div class="upload-actions">
+      <span class="upload-status" id="uploadStatus">No hay datos cargados.</span>
+      <input id="fileInput" type="file" accept=".xlsx,.xlsm,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden />
+      <button class="primary" id="pickFile">Cargar Excel</button>
+    </div>
+  </div>
+
+  <div class="panel filters">
+    <div class="field"><label>Buscar serie / firma</label><input id="q" placeholder="Ej. 22AXKD8F8648" /></div>
+    <div class="field"><label>Modelo</label><div class="multi-select" id="modelMulti" data-multi="model"><button type="button" class="multi-trigger" id="modelTrigger"></button><div class="multi-menu"><input class="multi-search" id="modelSearch" type="text" autocomplete="off" placeholder="Buscar modelo…"><div class="multi-actions"><button type="button" class="multi-action" data-action="all">Seleccionar visibles</button><button type="button" class="multi-action" data-action="clear">Limpiar</button></div><div class="multi-options" id="modelOptions"></div></div></div></div>
+    <div class="field estate-field"><label>Cliente / Estate</label><div class="multi-select" id="estateMulti" data-multi="estate"><button type="button" class="multi-trigger" id="estateTrigger"></button><div class="multi-menu"><input class="multi-search" id="estateSearch" type="text" autocomplete="off" placeholder="Buscar cliente…"><div class="multi-actions"><button type="button" class="multi-action" data-action="all">Seleccionar visibles</button><button type="button" class="multi-action" data-action="clear">Limpiar</button></div><div class="multi-options" id="estateOptions"></div></div></div></div>
+    <div class="field"><label>Estado</label><select id="status"></select></div>
+    <div class="field"><label>Aplicación</label><select id="app"></select></div>
+    <div class="field"><label>Versión</label><div class="multi-select" id="versionMulti" data-multi="version"><button type="button" class="multi-trigger" id="versionTrigger"></button><div class="multi-menu"><input class="multi-search" id="versionSearch" type="text" autocomplete="off" placeholder="Buscar versión…"><div class="multi-actions"><button type="button" class="multi-action" data-action="all">Seleccionar visibles</button><button type="button" class="multi-action" data-action="clear">Limpiar</button></div><div class="multi-options" id="versionOptions"></div></div></div></div>
+    <div class="field"><label>Bizum (CGP)</label><select id="bizum"><option value="">Todos</option><option value="compatible">Compatible</option><option value="incompatible">No compatible</option><option value="missing">Sin CGP</option></select></div>
+    <button class="secondary" id="reset">Limpiar</button>
+  </div>
+
+  <div class="kpis">
+    <div class="panel kpi"><div class="label">Terminales visibles</div><div class="value" id="kTerm">–</div><div class="sub" id="kTermSub"></div></div>
+    <div class="panel kpi"><div class="label">Modelos</div><div class="value" id="kModels">–</div><div class="sub">modelos en el filtro actual</div></div>
+    <div class="panel kpi"><div class="label">Aplicaciones presentes</div><div class="value" id="kApps">–</div><div class="sub">con versión final normalizada</div></div>
+    <div class="panel kpi"><div class="label">Versiones distintas</div><div class="value" id="kVersions">–</div><div class="sub" id="kVersionsSub">selecciona una aplicación</div></div>
+    <div class="panel kpi"><div class="label">Duplicados resueltos</div><div class="value" id="kResolved">–</div><div class="sub">entradas antiguas descartadas</div></div>
+    <div class="panel kpi"><div class="label">Compatibles Bizum</div><div class="value" id="kBizum">–</div><div class="sub" id="kBizumSub">sobre terminales con CGP</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="panel section">
+      <div class="section-head"><div><h2>Distribución de versiones</h2><div class="hint" id="distHint">Selecciona una aplicación</div></div></div>
+      <div class="chart-shell"><canvas id="versionChart"></canvas><div class="chart-empty show" id="versionEmpty">Elige una aplicación en los filtros para ver qué versiones están desplegadas y cuántos terminales tiene cada una.</div></div>
+    </div>
+    <div class="panel section">
+      <div class="section-head"><div><h2>Compatibilidad Bizum</h2><div class="hint">CGP 04.14.x o superior se considera compatible</div></div></div>
+      <div class="bizum-wrap">
+        <div class="bizum-chart-shell"><canvas id="bizumChart"></canvas><div class="donut-center"><strong id="bizumPct">–</strong><span>compatibles</span></div></div>
+        <div class="bizum-mini-key" aria-label="Leyenda de compatibilidad Bizum"><span class="bizum-mini-item"><span class="bizum-mini-dot ok"></span>Compatible</span><span class="bizum-mini-item"><span class="bizum-mini-dot no"></span>No compatible</span><span class="bizum-mini-item"><span class="bizum-mini-dot na"></span>Sin CGP</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel section coverage">
+    <div class="section-head"><div><h2>Cobertura por modelo</h2><div class="hint" id="modelHint">Terminales y versiones por modelo</div></div></div>
+    <div class="scroll"><table class="model-table"><thead><tr><th>Modelo</th><th>Terminales</th><th>Cobertura app</th><th>Versiones</th><th>Versión dominante</th></tr></thead><tbody id="modelBody"></tbody></table></div>
+  </div>
+
+  <div class="panel table-panel">
+    <div class="table-tools">
+      <div><h2>Detalle de terminales</h2><div class="version-banner" id="tableHint"></div></div>
+      <div class="table-actions"><button class="secondary" id="export">Exportar CSV filtrado</button></div>
+    </div>
+    <div class="data-wrap"><table class="data"><thead><tr><th>Serie</th><th>Modelo</th><th>Part number</th><th>Estate</th><th>Estado</th><th>Firmware</th><th id="appCol">Aplicaciones (última versión)</th><th>Bizum</th><th>Última llamada</th></tr></thead><tbody id="tbody"></tbody></table></div>
+    <div class="footerbar"><span id="rowInfo"></span><div class="pager"><button class="secondary" id="prev">Anterior</button><span id="pageInfo"></span><button class="secondary" id="next">Siguiente</button></div></div>
+  </div>
+  <div class="note"><strong>Procesamiento 100% frontend:</strong> el Excel se lee, normaliza y filtra localmente en el navegador; no se envía a ningún servidor. Los gráficos se renderizan con Chart.js. &nbsp;·&nbsp; Criterio de versión: se toma la secuencia numérica inmediatamente posterior al nombre de la aplicación, se normaliza a bloques de dos dígitos y después se compara componente a componente como número. Por ejemplo, <span class="mono">41111 → 04.11.11</span> y <span class="mono">1.22.00 → 01.22.00</span>. Para Bizum se considera compatible la familia <span class="mono">com.ingenico.cgp 04.14.x</span> o cualquier versión superior. Los terminales sin CGP se muestran por separado.</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<script>
+let DATA=[];
+let ALL_APPS=[];
+let META={terminalCount:0,appCount:0,duplicateTerminals:0,discardedEntries:0,sourceEntries:0,generated:''};
+let sourceName='Sin archivo cargado';
+const BIZUM_THRESHOLD='04.14.00';
+const $=id=>document.getElementById(id);
+const state={page:1,pageSize:50,filtered:DATA};
+const nf=new Intl.NumberFormat('es-ES');
+function isDark(){return document.documentElement.dataset.theme==='dark';}
+function chartTheme(){return isDark()?{text:'#B4B9C9',grid:'rgba(180,185,201,.13)',border:'#171927'}:{text:'#626780',grid:'rgba(27,30,198,.07)',border:'#FFFFFF'};}
+function setTheme(theme,persist=true){
+  document.documentElement.dataset.theme=theme;
+  if(persist)try{localStorage.setItem('terminalDashboardTheme',theme);}catch(e){}
+  const dark=theme==='dark';
+  if($('themeIcon'))$('themeIcon').textContent=dark?'☀':'☾';
+  if($('themeLabel'))$('themeLabel').textContent=dark?'Modo claro':'Modo oscuro';
+  if($('themeToggle')){$('themeToggle').setAttribute('aria-label',dark?'Activar modo claro':'Activar modo oscuro');$('themeToggle').title=dark?'Activar modo claro':'Activar modo oscuro';}
+  if(typeof renderBars==='function'&&typeof renderBizum==='function'){renderBars();renderBizum();}
+}
+function initTheme(){let saved='';try{saved=localStorage.getItem('terminalDashboardTheme')||'';}catch(e){}const preferred=saved||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');setTheme(preferred,false);$('themeToggle').addEventListener('click',()=>setTheme(isDark()?'light':'dark'));}
+
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function normalizeVersion(v){
+  let s=String(v??'').trim();
+  if(!s)return '';
+  if(/^\d{5}$/.test(s))s=`${s.slice(0,1)}.${s.slice(1,3)}.${s.slice(3,5)}`;
+  else if(/^\d{6}$/.test(s))s=`${s.slice(0,2)}.${s.slice(2,4)}.${s.slice(4,6)}`;
+  const parts=s.split('.');
+  if(parts.every(x=>/^\d+$/.test(x)))return parts.map(x=>String(Number(x)).padStart(2,'0')).join('.');
+  return s;
+}
+function vkey(v){return normalizeVersion(v).split('.').map(x=>parseInt(x,10)||0)}
+function vcmp(a,b){const A=vkey(a),B=vkey(b),n=Math.max(A.length,B.length);for(let i=0;i<n;i++){const d=(A[i]||0)-(B[i]||0);if(d)return d}return 0}
+function uniqueSorted(vals){return [...new Set(vals.filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),'es',{numeric:true,sensitivity:'base'}));}
+function optionize(el,values,label='Todos'){const cur=el.value; el.innerHTML=`<option value="">${label}</option>`+values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join(''); if(values.includes(cur))el.value=cur;}
+function statusPill(s){const cls=s==='ACTIVATED'?'p-active':s==='DELETED'?'p-deleted':'p-created';return `<span class="pill ${cls}">${esc(s||'—')}</span>`}
+function shortApp(a){return a.replace('com.comercia.','').replace('com.ingenico.','')}
+function cgpParts(v){return vkey(v)}
+function partsCmp(A,B){const n=Math.max(A.length,B.length);for(let i=0;i<n;i++){const d=(A[i]||0)-(B[i]||0);if(d)return d}return 0}
+function bizumStatus(r){const v=r.apps&&r.apps['com.ingenico.cgp'];if(!v)return {key:'missing',label:'Sin CGP',cls:'p-bizum-na'};if(partsCmp(cgpParts(v),vkey(BIZUM_THRESHOLD))>=0)return {key:'compatible',label:'Compatible',cls:'p-bizum-yes'};return {key:'incompatible',label:'No compatible',cls:'p-bizum-no'};}
+function bizumPill(r){const b=bizumStatus(r);return `<span class="pill ${b.cls}">${b.label}</span>`}
+function normHeader(v){return String(v??'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ')}
+function parseSoftwareList(raw){
+  const apps={}, parts=String(raw??'').split(',').map(x=>x.trim()).filter(Boolean);let resolved=0,parsed=0;
+  for(const item of parts){
+    const m=item.match(/^(.+?)-(\d+(?:\.\d+)*)(?:-|$)/);
+    if(!m)continue;
+    const app=m[1].trim(),ver=normalizeVersion(m[2]);parsed++;
+    if(Object.prototype.hasOwnProperty.call(apps,app)){resolved++;if(vcmp(ver,apps[app])>0)apps[app]=ver;}else apps[app]=ver;
+  }
+  return {apps,resolved,parsed};
+}
+function updateSourceBadge(){ $('sourceBadge').textContent=DATA.length?`${nf.format(DATA.length)} terminales · ${nf.format(ALL_APPS.length)} apps · ${sourceName}`:'Sin datos · carga un Excel para comenzar'; }
+
+const MULTI={model:new Set(),estate:new Set(),version:new Set()};
+const MULTI_OPTIONS={model:[],estate:[],version:[]};
+function multiLabel(id){return id==='model'?'modelos':id==='estate'?'clientes':'versiones'}
+function multiSelected(id){return [...MULTI[id]]}
+function setMultiOptions(id,values,preserve=true){
+  MULTI_OPTIONS[id]=values;
+  if(preserve) MULTI[id]=new Set([...MULTI[id]].filter(v=>values.includes(v))); else MULTI[id].clear();
+  renderMulti(id);
+}
+function renderMulti(id,query=''){
+  const selected=MULTI[id], values=MULTI_OPTIONS[id], q=String(query||'').trim().toLowerCase();
+  const trigger=$(id+'Trigger'), box=$(id+'Options');
+  const sel=[...selected];
+  trigger.innerHTML=!sel.length?`<span class="multi-placeholder">Todos</span>`:sel.length<=2?sel.map(v=>`<span class="multi-chip" title="${esc(v)}">${esc(v)}</span>`).join(''):`<span class="multi-chip" title="${esc(sel[0])}">${esc(sel[0])}</span><span class="multi-count">+${sel.length-1}</span>`;
+  const filtered=values.filter(v=>!q||String(v).toLowerCase().includes(q));
+  box.innerHTML=filtered.length?filtered.map(v=>`<label class="multi-option" title="${esc(v)}"><input type="checkbox" value="${esc(v)}" ${selected.has(v)?'checked':''}><span>${esc(v)}</span></label>`).join(''):`<div class="multi-empty">No hay ${multiLabel(id)} que coincidan</div>`;
+}
+function initMulti(id,onChange){
+  const root=$(id+'Multi'), trigger=$(id+'Trigger'), search=$(id+'Search'), options=$(id+'Options');
+  trigger.addEventListener('click',()=>{document.querySelectorAll('.multi-select.open').forEach(x=>{if(x!==root)x.classList.remove('open')});root.classList.toggle('open');if(root.classList.contains('open')){search.value='';renderMulti(id);setTimeout(()=>search.focus(),0)}});
+  search.addEventListener('input',()=>renderMulti(id,search.value));
+  options.addEventListener('change',e=>{const cb=e.target.closest('input[type="checkbox"]');if(!cb)return;cb.checked?MULTI[id].add(cb.value):MULTI[id].delete(cb.value);renderMulti(id,search.value);onChange();});
+  root.querySelectorAll('.multi-action').forEach(btn=>btn.addEventListener('click',()=>{
+    if(btn.dataset.action==='clear')MULTI[id].clear();
+    else {const q=search.value.trim().toLowerCase();MULTI_OPTIONS[id].filter(v=>!q||String(v).toLowerCase().includes(q)).forEach(v=>MULTI[id].add(v));}
+    renderMulti(id,search.value);onChange();
+  }));
+}
+document.addEventListener('mousedown',e=>{document.querySelectorAll('.multi-select.open').forEach(x=>{if(!x.contains(e.target))x.classList.remove('open')})});
+function rebuildFilterOptions(){
+  const keep={status:$('status').value,app:$('app').value,bizum:$('bizum').value};
+  setMultiOptions('model',uniqueSorted(DATA.map(r=>r.model)));
+  setMultiOptions('estate',uniqueSorted(DATA.map(r=>r.estate)));
+  optionize($('status'),uniqueSorted(DATA.map(r=>r.status)));
+  optionize($('app'),ALL_APPS,'Todas');
+  for(const k of ['status','app','bizum']) if(keep[k] && [...$(k).options].some(o=>o.value===keep[k])) $(k).value=keep[k];
+  refreshVersionOptions();
+  updateSourceBadge();
+}
+
+// Lector XLSX sin dependencias externas: abre el ZIP OOXML y la primera hoja.
+function u16(v,o){return v.getUint16(o,true)} function u32(v,o){return v.getUint32(o,true)}
+async function openZip(buffer){
+  const view=new DataView(buffer);let eocd=-1;const min=Math.max(0,buffer.byteLength-65557);
+  for(let i=buffer.byteLength-22;i>=min;i--){if(u32(view,i)===0x06054b50){eocd=i;break;}}
+  if(eocd<0)throw new Error('El archivo no parece ser un XLSX válido.');
+  const entries=new Map(),count=u16(view,eocd+10),cdOffset=u32(view,eocd+16),dec=new TextDecoder('utf-8');let p=cdOffset;
+  for(let i=0;i<count;i++){
+    if(u32(view,p)!==0x02014b50)throw new Error('Estructura ZIP no compatible.');
+    const method=u16(view,p+10),compSize=u32(view,p+20),uncompSize=u32(view,p+24),nameLen=u16(view,p+28),extraLen=u16(view,p+30),commentLen=u16(view,p+32),localOffset=u32(view,p+42);
+    const name=dec.decode(new Uint8Array(buffer,p+46,nameLen));entries.set(name,{method,compSize,uncompSize,localOffset});p+=46+nameLen+extraLen+commentLen;
+  }
+  async function bytes(name){
+    const e=entries.get(name);if(!e)throw new Error(`No se encuentra ${name} dentro del XLSX.`);const lp=e.localOffset;
+    if(u32(view,lp)!==0x04034b50)throw new Error('Cabecera ZIP local inválida.');
+    const nameLen=u16(view,lp+26),extraLen=u16(view,lp+28),start=lp+30+nameLen+extraLen;const input=new Uint8Array(buffer,start,e.compSize);
+    if(e.method===0)return input.slice();
+    if(e.method!==8)throw new Error(`Compresión ZIP no soportada (${e.method}).`);
+    if(typeof DecompressionStream==='undefined')throw new Error('Este navegador no permite descomprimir XLSX. Usa una versión reciente de Chrome, Edge o Firefox.');
+    const ds=new DecompressionStream('deflate-raw');return new Uint8Array(await new Response(new Blob([input]).stream().pipeThrough(ds)).arrayBuffer());
+  }
+  return {entries,async text(name){return new TextDecoder('utf-8').decode(await bytes(name));}};
+}
+function xmlDoc(text){const d=new DOMParser().parseFromString(text,'application/xml');if(d.getElementsByTagName('parsererror').length)throw new Error('No se pudo interpretar el XML interno del Excel.');return d;}
+function colIndex(ref){const m=String(ref||'').match(/^([A-Z]+)/i);if(!m)return 0;let n=0;for(const ch of m[1].toUpperCase())n=n*26+ch.charCodeAt(0)-64;return n-1;}
+function cellText(c,shared){
+  const t=c.getAttribute('t');
+  if(t==='inlineStr'){return [...c.getElementsByTagName('t')].map(x=>x.textContent||'').join('');}
+  const v=c.getElementsByTagName('v')[0]?.textContent??'';
+  if(t==='s')return shared[Number(v)]??'';
+  if(t==='b')return v==='1'?'TRUE':'FALSE';
+  return v;
+}
+async function firstSheetMatrix(buffer){
+  const zip=await openZip(buffer);let sheetPath='xl/worksheets/sheet1.xml';
+  if(zip.entries.has('xl/workbook.xml')&&zip.entries.has('xl/_rels/workbook.xml.rels')){
+    const wb=xmlDoc(await zip.text('xl/workbook.xml')),rels=xmlDoc(await zip.text('xl/_rels/workbook.xml.rels')),sheet=wb.getElementsByTagName('sheet')[0];
+    if(sheet){const rid=sheet.getAttribute('r:id')||sheet.getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships','id');const rel=[...rels.getElementsByTagName('Relationship')].find(x=>x.getAttribute('Id')===rid);if(rel){let target=rel.getAttribute('Target')||'';target=target.replace(/^\//,'');sheetPath=target.startsWith('xl/')?target:'xl/'+target;}}
+  }
+  let shared=[];
+  if(zip.entries.has('xl/sharedStrings.xml')){const d=xmlDoc(await zip.text('xl/sharedStrings.xml'));shared=[...d.getElementsByTagName('si')].map(si=>[...si.getElementsByTagName('t')].map(t=>t.textContent||'').join(''));}
+  const d=xmlDoc(await zip.text(sheetPath)),rows=[...d.getElementsByTagName('row')],matrix=[];
+  for(const row of rows){const arr=[];for(const c of row.getElementsByTagName('c'))arr[colIndex(c.getAttribute('r'))]=cellText(c,shared);matrix.push(arr);}
+  return matrix;
+}
+function findCol(headers,aliases){const h=headers.map(normHeader);for(const a of aliases){const i=h.indexOf(normHeader(a));if(i>=0)return i;}return -1;}
+async function loadExcel(file){
+  if(!/\.(xlsx|xlsm)$/i.test(file.name))throw new Error('Selecciona un archivo .xlsx o .xlsm.');
+  const matrix=await firstSheetMatrix(await file.arrayBuffer());
+  const headerRow=matrix.findIndex((r,i)=>i<40 && r.some(v=>normHeader(v)==='softwares'));
+  if(headerRow<0)throw new Error('No encuentro la cabecera “Softwares” en las primeras filas del Excel.');
+  const headers=matrix[headerRow]||[];
+  const c={
+    signature:findCol(headers,['Terminal signature','Signature']), serial:findCol(headers,['Serial number','Serial','Serie']), tech:findCol(headers,['Technology','Tecnologia']), part:findCol(headers,['Part number','Partnumber']), firmware:findCol(headers,['firmware']), status:findCol(headers,['Terminal status','Status','Estado']), estate:findCol(headers,['Estate name','Estate','Cliente']), estateSig:findCol(headers,['Estate signature']), model:findCol(headers,['Product code','Model','Modelo']), softwares:findCol(headers,['Softwares','Software','Apps','Aplicaciones']), last:findCol(headers,['Last call date','Last call','Ultima llamada'])
+  };
+  if(c.softwares<0)throw new Error('Falta la columna Softwares.');
+  const get=(r,i)=>i>=0?String(r[i]??'').trim():'';const data=[],appsSet=new Set();let sourceEntries=0,discardedEntries=0,duplicateTerminals=0;
+  for(let i=headerRow+1;i<matrix.length;i++){
+    const r=matrix[i];if(!r||!r.some(v=>String(v??'').trim()))continue;
+    const parsed=parseSoftwareList(get(r,c.softwares));sourceEntries+=parsed.parsed;discardedEntries+=parsed.resolved;if(parsed.resolved)duplicateTerminals++;
+    Object.keys(parsed.apps).forEach(a=>appsSet.add(a));
+    const signature=get(r,c.signature),serial=get(r,c.serial)||signature;
+    if(!serial&&!get(r,c.model)&&!get(r,c.softwares))continue;
+    data.push({serial,signature,model:get(r,c.model),part:get(r,c.part),tech:get(r,c.tech),status:get(r,c.status),estate:get(r,c.estate)||get(r,c.estateSig),firmware:get(r,c.firmware),last:get(r,c.last),apps:parsed.apps,resolved:parsed.resolved});
+  }
+  if(!data.length)throw new Error('No se han encontrado terminales en el Excel.');
+  DATA=data;ALL_APPS=[...appsSet].sort((a,b)=>a.localeCompare(b,'es',{numeric:true,sensitivity:'base'}));META={terminalCount:data.length,appCount:ALL_APPS.length,duplicateTerminals,discardedEntries,sourceEntries,generated:new Date().toLocaleString('es-ES')};sourceName=file.name;
+  state.page=1;rebuildFilterOptions();apply();
+}
+async function handleFile(file){
+  if(!file)return;const status=$('uploadStatus'),btn=$('pickFile'),shell=document.querySelector('.shell');status.className='upload-status loading';status.textContent=`Procesando ${file.name}…`;btn.disabled=true;shell.classList.add('loading-mask');
+  try{await loadExcel(file);status.className='upload-status ok';status.textContent=`${file.name} · ${nf.format(DATA.length)} terminales · ${nf.format(META.discardedEntries)} versiones antiguas descartadas.`;}
+  catch(e){console.error(e);status.className='upload-status error';status.textContent=e?.message||'No se pudo procesar el Excel.';}
+  finally{btn.disabled=false;shell.classList.remove('loading-mask');$('fileInput').value='';}
+}
+
+function init(){
+  initTheme();
+  initMulti('model',()=>{state.page=1;refreshVersionOptions();apply();});
+  initMulti('estate',()=>{state.page=1;refreshVersionOptions();apply();});
+  initMulti('version',()=>{state.page=1;apply();});
+  rebuildFilterOptions();
+  $('uploadStatus').textContent='No hay datos cargados. Selecciona o arrastra un Excel para comenzar.';
+  ['q','status','app','bizum'].forEach(id=>$(id).addEventListener(id==='q'?'input':'change',()=>{state.page=1;if(['status','app','bizum'].includes(id))refreshVersionOptions();apply();}));
+  $('reset').onclick=()=>{['q','status','app','bizum'].forEach(id=>$(id).value='');MULTI.model.clear();MULTI.estate.clear();MULTI.version.clear();renderMulti('model');renderMulti('estate');refreshVersionOptions();state.page=1;apply();};
+  $('prev').onclick=()=>{if(state.page>1){state.page--;renderTable();}};
+  $('next').onclick=()=>{const pages=Math.max(1,Math.ceil(state.filtered.length/state.pageSize));if(state.page<pages){state.page++;renderTable();}};
+  $('export').onclick=exportCsv;
+  $('pickFile').onclick=()=>$('fileInput').click();$('fileInput').addEventListener('change',e=>handleFile(e.target.files?.[0]));
+  const dz=$('dropZone');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drop-active')}));['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drop-active')}));dz.addEventListener('drop',e=>handleFile(e.dataTransfer?.files?.[0]));
+  refreshVersionOptions();apply();
+}
+function refreshVersionOptions(){
+  const app=$('app').value;
+  if(!app){setMultiOptions('version',[],false);$('versionTrigger').disabled=true;return;}
+  $('versionTrigger').disabled=false;
+  const models=MULTI.model, estates=MULTI.estate, status=$('status').value, bizum=$('bizum').value;
+  const baseFiltered=DATA.filter(r=>(!models.size||models.has(r.model))&&(!estates.size||estates.has(r.estate))&&(!status||r.status===status)&&(!bizum||bizumStatus(r).key===bizum));
+  const vs=uniqueSorted(baseFiltered.map(r=>r.apps[app])).sort((a,b)=>vcmp(b,a));
+  setMultiOptions('version',vs,true);
+}
+function apply(){
+  const q=$('q').value.trim().toLowerCase(), models=MULTI.model, estates=MULTI.estate,status=$('status').value,app=$('app').value,versions=MULTI.version,bizum=$('bizum').value;
+  const f=DATA.filter(r=>(!q||(r.serial+' '+r.signature).toLowerCase().includes(q))&&(!models.size||models.has(r.model))&&(!estates.size||estates.has(r.estate))&&(!status||r.status===status)&&(!app||r.apps[app])&&(!versions.size||versions.has(r.apps[app]))&&(!bizum||bizumStatus(r).key===bizum));
+  state.filtered=f;
+  renderKpis();renderBars();renderBizum();renderModels();renderTable();
+}
+function renderKpis(){
+  const f=state.filtered, app=$('app').value;
+  $('kTerm').textContent=nf.format(f.length);$('kTermSub').textContent=`de ${nf.format(DATA.length)} terminales`;
+  $('kModels').textContent=nf.format(new Set(f.map(r=>r.model).filter(Boolean)).size);
+  const apps=new Set();f.forEach(r=>Object.keys(r.apps).forEach(a=>apps.add(a)));$('kApps').textContent=nf.format(apps.size);
+  const vs=app?new Set(f.map(r=>r.apps[app]).filter(Boolean)):new Set();$('kVersions').textContent=app?nf.format(vs.size):'—';$('kVersionsSub').textContent=app?shortApp(app):'selecciona una aplicación';
+  $('kResolved').textContent=nf.format(f.reduce((s,r)=>s+r.resolved,0));
+  const bc=f.reduce((o,r)=>{o[bizumStatus(r).key]++;return o},{compatible:0,incompatible:0,missing:0}),withCgp=bc.compatible+bc.incompatible;
+  $('kBizum').textContent=withCgp?(bc.compatible/withCgp*100).toFixed(1)+'%':'—';$('kBizumSub').textContent=withCgp?`${nf.format(bc.compatible)} de ${nf.format(withCgp)} con CGP`:'sin terminales con CGP';
+}
+
+const valueLabelsPlugin={
+  id:'valueLabelsPlugin',
+  afterDatasetsDraw(chart,args,pluginOptions){
+    const {ctx}=chart;
+    ctx.save();
+    ctx.font='700 11px Inter, ui-sans-serif, system-ui, sans-serif';
+    ctx.textBaseline='middle';
+    chart.data.datasets.forEach((dataset,di)=>{
+      const meta=chart.getDatasetMeta(di);
+      if(meta.hidden)return;
+      meta.data.forEach((el,i)=>{
+        const raw=Number(dataset.data[i]||0);
+        if(!raw)return;
+        const mode=pluginOptions&&pluginOptions.mode;
+        if(mode==='doughnut'){
+          return;
+        }else{
+          const horizontal=chart.options.indexAxis==='y';
+          ctx.fillStyle='#262AFF';
+          if(horizontal){ctx.textAlign='left';ctx.fillText(nf.format(raw),el.x+8,el.y);}
+          else{ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(nf.format(raw),el.x,el.y-7);}
+        }
+      });
+    });
+    ctx.restore();
+  }
+};
+
+let versionChartInstance=null,bizumChartInstance=null;
+function chartReady(){return typeof Chart!=='undefined';}
+function renderBars(){
+  const app=$('app').value, empty=$('versionEmpty');
+  if(versionChartInstance){versionChartInstance.destroy();versionChartInstance=null;}
+  if(!app){$('distHint').textContent='Selecciona una aplicación para analizar sus versiones';empty.classList.add('show');empty.textContent='Elige una aplicación en los filtros para ver qué versiones están desplegadas y cuántos terminales tiene cada una.';return;}
+  const counts={};state.filtered.forEach(r=>{const v=r.apps[app];if(v)counts[v]=(counts[v]||0)+1});
+  const entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]||vcmp(b[0],a[0]));
+  const total=entries.reduce((sum,x)=>sum+x[1],0);
+  $('distHint').textContent=`${shortApp(app)} · ${nf.format(entries.length)} versiones · ${nf.format(total)} terminales`;
+  if(!entries.length){empty.classList.add('show');empty.textContent='No hay versiones para los filtros actuales.';return;}
+  if(!chartReady()){empty.classList.add('show');empty.textContent='No se ha podido cargar Chart.js. Comprueba la conexión a Internet y vuelve a abrir el dashboard.';return;}
+  empty.classList.remove('show');
+  const labels=entries.map(x=>x[0]),values=entries.map(x=>x[1]),theme=chartTheme();
+  versionChartInstance=new Chart($('versionChart').getContext('2d'),{
+    type:'bar',
+    data:{labels,datasets:[{label:'Terminales',data:values,backgroundColor:'#262AFF',borderColor:'#1B1EC6',borderWidth:1,borderRadius:7,borderSkipped:false,maxBarThickness:44,barPercentage:.82,categoryPercentage:.9}]},
+    plugins:[valueLabelsPlugin],
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:labels.length>7?'y':'x',animation:{duration:250},plugins:{legend:{display:true,position:'top',labels:{boxWidth:12,boxHeight:12,usePointStyle:true,pointStyle:'rectRounded',color:theme.text}},valueLabelsPlugin:{mode:'bar'},tooltip:{callbacks:{label:(ctx)=>{const n=ctx.raw||0;return ` ${nf.format(n)} terminales · ${total?(n/total*100).toFixed(1):'0.0'}%`;}}}},scales:{x:{beginAtZero:true,grid:{color:theme.grid},ticks:{color:theme.text,precision:0}},y:{beginAtZero:true,grid:{color:theme.grid},ticks:{color:theme.text}}}}
+  });
+}
+function renderBizum(){
+  const c={compatible:0,incompatible:0,missing:0};state.filtered.forEach(r=>c[bizumStatus(r).key]++);
+  const total=c.compatible+c.incompatible+c.missing,withCgp=c.compatible+c.incompatible,pct=withCgp?c.compatible/withCgp*100:0;
+  $('bizumPct').textContent=withCgp?pct.toFixed(1)+'%':'—';
+  if(bizumChartInstance){bizumChartInstance.destroy();bizumChartInstance=null;}
+  if(!chartReady()||!total)return;
+  const theme=chartTheme();
+  bizumChartInstance=new Chart($('bizumChart').getContext('2d'),{
+    type:'doughnut',
+    data:{labels:['Compatible','No compatible','Sin CGP'],datasets:[{data:[c.compatible,c.incompatible,c.missing],backgroundColor:['#262AFF','#F4364C','#A8ADBD'],borderColor:theme.border,borderWidth:3,hoverOffset:5}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'69%',animation:{duration:250},layout:{padding:{top:8,right:8,bottom:8,left:8}},plugins:{legend:{display:false},tooltip:{callbacks:{label:(ctx)=>{const n=ctx.raw||0;return ` ${ctx.label}: ${nf.format(n)} · ${total?(n/total*100).toFixed(1):'0.0'}%`;}}}}}
+  });
+}
+function renderModels(){
+  const app=$('app').value,map=new Map();
+  state.filtered.forEach(r=>{if(!map.has(r.model))map.set(r.model,{n:0,have:0,vers:{}});const x=map.get(r.model);x.n++;if(app&&r.apps[app]){x.have++;x.vers[r.apps[app]]=(x.vers[r.apps[app]]||0)+1;}});
+  const arr=[...map.entries()].sort((a,b)=>b[1].n-a[1].n);
+  $('modelHint').textContent=app?`Cobertura de ${shortApp(app)} dentro del filtro actual`:'Selecciona una aplicación para añadir cobertura y versión dominante';
+  $('modelBody').innerHTML=arr.map(([m,x])=>{const dom=app?Object.entries(x.vers).sort((a,b)=>b[1]-a[1])[0]:null;return `<tr><td><strong>${esc(m||'—')}</strong></td><td class="num">${nf.format(x.n)}</td><td class="num">${app?(x.have/x.n*100).toFixed(1)+'%':'—'}</td><td class="num">${app?nf.format(Object.keys(x.vers).length):'—'}</td><td>${dom?`<span class="mono">${esc(dom[0])}</span> (${nf.format(dom[1])})`:'—'}</td></tr>`}).join('');
+}
+function renderTable(){
+  const f=state.filtered,app=$('app').value,pages=Math.max(1,Math.ceil(f.length/state.pageSize));if(state.page>pages)state.page=pages;
+  const start=(state.page-1)*state.pageSize, end=Math.min(start+state.pageSize,f.length), page=f.slice(start,end);
+  $('appCol').textContent=app?`Versión · ${shortApp(app)}`:'Aplicaciones (última versión)';
+  $('tableHint').innerHTML=app?`Mostrando la versión final de <strong>${esc(shortApp(app))}</strong>`:`Cada chip representa la versión más alta conservada por aplicación`;
+  $('tbody').innerHTML=page.map(r=>{let av;if(app){av=`<span class="mono"><strong>${esc(r.apps[app]||'—')}</strong></span>${app==='com.ingenico.cgp'?' '+bizumPill(r):''}`}else{av=`<div class="appchips">${Object.entries(r.apps).sort((a,b)=>a[0].localeCompare(b[0])).map(([a,v])=>{const cls=a==='com.ingenico.cgp'?(bizumStatus(r).key==='compatible'?' cgp-compatible':' cgp-incompatible'):'';return `<span class="appchip${cls}" title="${esc(a)}">${esc(shortApp(a))} ${esc(v)}</span>`}).join('')}</div>`}return `<tr><td class="mono"><strong>${esc(r.serial)}</strong></td><td>${esc(r.model||'—')}</td><td class="mono">${esc(r.part||'—')}</td><td title="${esc(r.estate)}">${esc(r.estate||'—')}</td><td>${statusPill(r.status)}</td><td class="mono">${esc(r.firmware||'—')}</td><td>${av}</td><td>${bizumPill(r)}</td><td>${esc(r.last||'—')}</td></tr>`}).join('');
+  $('rowInfo').textContent=f.length?`Mostrando ${nf.format(start+1)}–${nf.format(end)} de ${nf.format(f.length)}`:'0 resultados';$('pageInfo').textContent=`Página ${state.page} / ${pages}`;$('prev').disabled=state.page<=1;$('next').disabled=state.page>=pages;
+}
+function csvCell(x){x=String(x??'');return /[;"\n\r]/.test(x)?'"'+x.replace(/"/g,'""')+'"':x}
+function exportCsv(){
+  const app=$('app').value;
+  const head=['Serial','Modelo','Part number','Estate','Estado','Firmware',app?`Version ${app}`:'Aplicaciones normalizadas','Compatibilidad Bizum','Ultima llamada'];
+  const lines=[head.map(csvCell).join(';')];
+  state.filtered.forEach(r=>{const av=app?(r.apps[app]||''):Object.entries(r.apps).map(([a,v])=>a+'='+v).join(' | ');lines.push([r.serial,r.model,r.part,r.estate,r.status,r.firmware,av,bizumStatus(r).label,r.last].map(csvCell).join(';'))});
+  const blob=new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='terminales_versiones_filtradas.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),500);
+}
+init();
+</script>
+</body></html>
